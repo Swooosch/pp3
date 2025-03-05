@@ -74,7 +74,7 @@ class chatListView(ListView):
     template_name = 'chat/chat/list.html'
 
     def get_queryset(self):
-        queryset = chat.published.all()
+        queryset = Gamechat.published.all()
         tag_slug = self.kwargs.get('tag_slug')
         if tag_slug:
             self.tag = get_object_or_404(Tag, slug=tag_slug)
