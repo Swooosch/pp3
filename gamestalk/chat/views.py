@@ -119,9 +119,9 @@ def chat_comment(request, chat_id):
 @login_required
 def edit_comment(request, comment_id):
     comment = get_object_or_404(
-        comment, id=comment_id, user=request.user)
+        Comment, id=comment_id, user=request.user)
     if request.method == 'POST':
-        form = commentForm(request.POST, instance=comment)
+        form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
             return redirect(
@@ -132,7 +132,7 @@ def edit_comment(request, comment_id):
                 chat=comment.chat.slug
             )
     else:
-        form = commentForm(instance=comment)
+        form = CommentForm(instance=comment)
     return render(
         request,
         'chat/chat/comment/edit_comment.html',
@@ -143,7 +143,7 @@ def edit_comment(request, comment_id):
 @login_required
 def delete_comment(request, comment_id):
     comment = get_object_or_404(
-        comment, id=comment_id, user=request.user)
+        Comment, id=comment_id, user=request.user)
     chat = comment.chat
     if request.method == 'POST':
         comment.delete()
