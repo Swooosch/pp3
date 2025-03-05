@@ -1,0 +1,37 @@
+{% extends "chat/base.html" %}
+
+{% block title %}{{ chat.title }}{% endblock %}
+
+{% load humanize %} 
+
+{% block content %}
+    <h2>{{ chat.title }}</h2>
+    <p class="date">
+        Published {{ chat.created_on|naturalday }} by {{ chat.author }}
+    </p>
+    {{ chat.body|linebreaks }}
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} comment{{ total_comments|pluralize }}
+    {% endwith %}
+    {% for comment in comments %}
+    <div class="comment">
+      <p class="info">
+        Comment {{ forloop.counter }} by {{ comment.user }}
+        {{ comment.created_on|naturaltime }}
+      </p>
+      {{ comment.body|linebreaks }}
+      {% if comment.user == user %}
+        <a href="{% url 'chat:edit_comment' comment.id %}">Edit |</a>
+        <a href="{% url 'chat:delete_comment' comment.id %}"> Delete</a>
+    {% endif %}
+    </div>
+  {% empty %}
+    <p>There are no comments yet.</p>
+  {% endfor %}
+  {% if user.is_authenticated %}
+    {% include "chat/chat/includes/comment_form.html" %}
+  {% else %}
+    <p>Please log in to leave a comment.</p>
+  {% endif %}
+{% endblock %}
