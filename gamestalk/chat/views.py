@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from taggit.models import Tag
-from .forms import commentForm
-from .models import chat, Comment
+from .forms import CommentForm
+from .models import Gamechat, Comment
 
 
 def chat_list(request):
@@ -13,7 +13,7 @@ def chat_list(request):
     Here we get all chats using our custom manager (i.e the PublishedManager)
     It retrieves all chats with a status of PUBLISHED
     """
-    chat_list = Chat.published.all()
+    chat_list = Gamechat.published.all()
     # Pagination with 3 chats per page
     paginator = Paginator(chat_list, 3)
     page_number = request.GET.get('page', 1)
@@ -40,7 +40,7 @@ def chat_detail(request, year, month, day, chat):
     If the chat is not found a HTTP 404 exception is raised.
     """
     chat = get_object_or_404(
-        chat,
+        Chat,
         status=chat.Status.PUBLISHED,
         slug=chat,
         created_on__year=year,
@@ -50,7 +50,7 @@ def chat_detail(request, year, month, day, chat):
 
     comments = chat.comments.filter(is_active=True)
     form = CommentForm()
-    most_commented_chats = Chat.published.most_commented()
+    most_commented_chats = Gamechat.published.most_commented()
 
     return render(
         request,
@@ -68,7 +68,7 @@ class chatListView(ListView):
     """
     Alternative chat list view
     """
-    queryset = chat.published.all()
+    queryset = Gamechat.published.all()
     context_object_name = 'chats'
     paginate_by = 3
     template_name = 'chat/chat/list.html'
