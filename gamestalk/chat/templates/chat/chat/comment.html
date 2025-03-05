@@ -5,8 +5,8 @@
 {% block content %}
   {% if comment %}
     <h2>Your comment has been added.</h2>
-    <p><a href="{{ review.get_absolute_url }}">Back to the chat</a></p>
+    <p><a href="{{ chat.get_absolute_url }}">Back to the chat</a></p>
   {% else %}
-    {% include "review/review/includes/comment_form.html" %}
+    {% include "chat/chat/includes/comment_form.html" %}
   {% endif %}
 {% endblock %}

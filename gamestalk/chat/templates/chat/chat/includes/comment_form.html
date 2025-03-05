@@ -1,6 +1,6 @@
 <h2>Add a new comment</h2>
 
-<form action="{% url "review:review_comment" review.id %}" method="review" id="myStyle">
+<form action="{% url "chat:gamechat_comment" review.id %}" method="post" id="myStyle">
     {{ form.as_p }}
     {% csrf_token %}
     <p><input type="submit" value="Add comment"></p>

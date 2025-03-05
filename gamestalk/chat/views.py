@@ -50,7 +50,7 @@ def chat_detail(request, year, month, day, chat):
 
     comments = chat.comments.filter(is_active=True)
     form = CommentForm()
-    most_commented_chats = Gamechat.published.most_commented()
+    most_commented_chats = Chat.published.most_commented()
 
     return render(
         request,
@@ -87,7 +87,7 @@ class chatListView(ListView):
         context = super().get_context_data(**kwargs)
         context['tag'] = self.tag
         context[
-            'most_commented_chats'] = Chat.published.most_commented()
+            'most_commented_chats'] = Gamechat.published.most_commented()
         return context
 
 
