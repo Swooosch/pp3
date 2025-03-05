@@ -1,0 +1,28 @@
+{% extends "chat/base.html" %}
+
+{% block title %}My Chat{% endblock %}
+
+{% load humanize %} 
+
+{% block content %}
+    {% for chat in chats  %}
+        <h2>
+            <a href="{{ chat.get_absolute_url }}">
+                {{ chat.title }}
+            </a>
+        </h2>
+        <p class="tags">
+            {% for tag in chat.tags.all %}
+                <a href="{% url 'chat:chat_list_by_tag' tag.slug %}" class="tag-pill">{{ tag.name }}</a>
+            {% endfor %}
+        </p>
+        <p class='date'>
+            Published {{ chat.created_on|naturalday }} by {{ chat.author }}
+        </p>
+        <p>
+            {{ chat.body|truncatewords:30|linebreaks }}
+        </p>
+    {% endfor %}
+    {% include "pagination.html" with page=page_obj %}
+{% endblock %}
+
