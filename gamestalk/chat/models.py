@@ -17,7 +17,7 @@ class PublishedManager(models.Manager):
 
     def most_commented(self):
         return self.get_queryset().annotate(comment_count=Count(
-            'comments')).order_by('-comment_count')[:3]
+            'chat_comments')).order_by('-comment_count')[:3]
 
 
 class Gamechat(models.Model):
@@ -67,7 +67,7 @@ class Gamechat(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            "chat:gamechat_detail",
+            "chat:chat_detail",
             args=[
                 self.created_on.year,
                 self.created_on.month,

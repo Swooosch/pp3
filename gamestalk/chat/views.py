@@ -48,9 +48,9 @@ def chat_detail(request, year, month, day, chat):
         created_on__day=day
     )
 
-    comments = chat.comments.filter(is_active=True)
+    comments = chat.chat_comments.filter(is_active=True)
     form = CommentForm()
-    most_commented_chats = Chat.published.most_commented()
+    most_commented_chats = Gamechat.published.most_commented()
 
     return render(
         request,
